@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show update destroy ]
+  before_action :set_book, only: [ :show, :update, :destroy ]
 
   # GET /books
   # GET /books.json
@@ -10,6 +10,7 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
+    render json: @books
   end
 
   # POST /books
@@ -18,7 +19,7 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
 
     if @book.save
-      render :show, status: :created, location: @book
+      render json: @book, :show, status: :created, location: @book
     else
       render json: @book.errors, status: :unprocessable_entity
     end
@@ -28,7 +29,7 @@ class BooksController < ApplicationController
   # PATCH/PUT /books/1.json
   def update
     if @book.update(book_params)
-      render :show, status: :ok, location: @book
+      render json: @book
     else
       render json: @book.errors, status: :unprocessable_entity
     end
